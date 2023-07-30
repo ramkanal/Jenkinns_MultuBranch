@@ -1,23 +1,17 @@
-node('built-in') 
-{
-    stage('Continuous Download') 
-	{
-    git 'https://github.com/sunildevops77/maven.git'
-	}
-    stage('Continuous Build') 
-	{
-    sh label: '', script: 'mvn package'
-	}
-    stage('Continuous Deployment') 
-	{
-sh label: '', script: 'scp /home/ubuntu/.jenkins/workspace/ScriptedPipeline/webapp/target/webapp.war   ubuntu@172.31.26.217:/var/lib/tomcat8/webapps/qaenv.war'
-	}
-    stage('Continuous Testing') 
-	{
-              sh label: '', script: 'echo "Testing Passed"'
-	}
-    stage('Continuous Delivery') 
-	{
-sh label: '', script: 'scp /home/ubuntu/.jenkins/workspace/ScriptedPipeline/webapp/target/webapp.war   ubuntu@172.31.22.88:/var/lib/tomcat8/webapps/prodenv.war'
-	}
+node('built-in') {
+    stage('Download') {
+        git 'https://github.com/ramkanal/maven.git'
+    }
+    stage('Build') {
+        sh 'mvn package'
+    }
+    stage('Deploy in QA') {
+        sh 'scp /home/ubuntu/.jenkins/workspace/pipeline-script-job/webapp/target/webapp.war ubuntu@172.31.12.247:/var/lib/tomcat9/webapps/pl-qaenv.war'
+    }
+    stage('Tset in QA') {
+        sh 'echo "ALL TESTS ARE PASSED!!!!!!!"'
+    }
+    stage('Deploy in Prod') {
+        sh 'scp /home/ubuntu/.jenkins/workspace/pipeline-script-job/webapp/target/webapp.war ubuntu@172.31.0.112:/var/lib/tomcat9/webapps/pl-prodenv.war'
+    }
 }
