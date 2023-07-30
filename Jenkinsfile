@@ -1,4 +1,4 @@
-node('Slave') {
+node('built-in') {
     stage('Download') {
         git 'https://github.com/ramkanal/maven.git'
     }
